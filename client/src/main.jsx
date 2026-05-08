@@ -6,11 +6,15 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import "./index.css";
 import { registerSW } from "virtual:pwa-register";
 
-const updateSW = registerSW({
+// Register service worker with update prompt
+registerSW({
   onNeedRefresh() {
-    if (confirm("New content is available. Reload to update?")) {
-      updateSW()
+    if (confirm("A new version is available! Reload to update?")) {
+      location.reload();
     }
+  },
+  onOfflineReady() {
+    console.log("App is ready to work offline");
   },
 });
 
