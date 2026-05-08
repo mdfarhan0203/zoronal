@@ -7,7 +7,7 @@ import upload from '../middleware/upload.js';
 
 const router = express.Router();
 
-router.post('/signup', signupLimiter, validateSignup, signup);
+router.post('/signup', validateSignup, signup);
 router.post('/login', loginLimiter, validateLogin, login);
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);

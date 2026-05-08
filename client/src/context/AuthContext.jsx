@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import api from '../services/api';
+import { createContext, useContext, useState, useEffect } from "react";
+import api from "../services/api";
 
 const AuthContext = createContext();
 
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
           }
         }
       } catch (error) {
-        console.error('Auth initialization error:', error);
+        console.error("Auth initialization error:", error);
         api.clearToken();
       } finally {
         setLoading(false);
@@ -31,14 +31,14 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  const signup = async (fullName, email, password) => {
+  const signup = async (formData) => {
     try {
-      const response = await api.signup(fullName, email, password);
+      const response = await api.signup(formData);
       if (response.success) {
         setUser(response.user);
         setIsAuthenticated(true);
-        return response;
       }
+      return response;
     } catch (error) {
       throw error;
     }
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setIsAuthenticated(false);
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 
@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

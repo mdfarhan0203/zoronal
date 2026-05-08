@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react"
 
 import MainLayout from "./layouts/MainLayout"
 import AuthLayout from "./layouts/AuthLayout"
-
+import ProtectedRoute from "../routes/ProtectedRoute.jsx"
 const Home = lazy(() => import("../pages/Home/Home.jsx"))
 const Login = lazy(() => import("../pages/Login/Login.jsx"))
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard.jsx"))
@@ -18,7 +18,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <MainLayout />
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
     ),
     children: [
       {
@@ -66,11 +68,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      // <ProtectedRoute>
+      <ProtectedRoute>
         <Suspense fallback={<Loader />}>
           <Dashboard />
         </Suspense>
-      // </ProtectedRoute>
+      </ProtectedRoute>
     ),
   },
   {

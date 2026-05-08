@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
-import api from "@/services/api"
+import api from "@/services/api.js"
 
 const defaultForm = {
   name: "",

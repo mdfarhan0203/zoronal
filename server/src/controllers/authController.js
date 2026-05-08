@@ -7,11 +7,14 @@ import { validationResult } from 'express-validator';
 // @access  Public
 export const signup = async (req, res, next) => {
   try {
+    console.log("req body",req.body);
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, message: errors.array()[0].msg });
     }
 
+    console.log("RRR", req.body);
     const { fullName, email, password } = req.body;
 
     // Check if user already exists

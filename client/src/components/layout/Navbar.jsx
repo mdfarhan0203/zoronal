@@ -1,15 +1,33 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext.jsx";
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+      setOpen(false);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <>
       <nav className="border-b bg-white text-foreground">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-          <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-violet-600 text-sm text-white">★</span>
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-lg font-semibold"
+          >
+            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-violet-600 text-sm text-white">
+              ★
+            </span>
             <span>
               Review&<span className="font-bold">RATE</span>
             </span>
@@ -20,7 +38,9 @@ const Navbar = () => {
               placeholder="Search..."
               className="w-full rounded-md border border-border bg-background px-3 py-2 pr-9 text-sm"
             />
-            <span className="pointer-events-none absolute right-3 top-2 text-violet-600">⌕</span>
+            <span className="pointer-events-none absolute right-3 top-2 text-violet-600">
+              ⌕
+            </span>
           </div>
 
           <button
@@ -31,7 +51,12 @@ const Navbar = () => {
             className="inline-flex items-center gap-2 rounded-md border border-border bg-muted/10 px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20 md:hidden"
           >
             <span>{open ? "Close" : "Menu"}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4"
+            >
               {open ? (
                 <path
                   fillRule="evenodd"
@@ -49,19 +74,31 @@ const Navbar = () => {
           </button>
 
           <div className="hidden gap-2 md:flex">
-            <Link
-              to="/signup"
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
-            >
-              SignUp
-            </Link>
+            {!user ? (
+              <>
+                <Link
+                  to="/signup"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
+                >
+                  SignUp
+                </Link>
 
-            <Link
-              to="/login"
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
-            >
-              Login
-            </Link>
+                <Link
+                  to="/login"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
+                >
+                  Login
+                </Link>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -88,7 +125,12 @@ const Navbar = () => {
             onClick={() => setOpen(false)}
             className="ml-auto inline-flex items-center gap-2 rounded-md border border-border bg-muted/10 px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-4 w-4"
+            >
               <path
                 fillRule="evenodd"
                 d="M6.28 5.22a.75.75 0 011.06 0L12 9.94l4.66-4.72a.75.75 0 111.06 1.06L13.06 11l4.72 4.66a.75.75 0 11-1.06 1.06L12 12.06l-4.66 4.72a.75.75 0 01-1.06-1.06L10.94 11 6.22 6.28a.75.75 0 010-1.06z"
@@ -105,13 +147,6 @@ const Navbar = () => {
             >
               Home
             </Link>
-            {/* <Link
-              to="/dashboard"
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
-              onClick={() => setOpen(false)}
-            >
-              Dashboard
-            </Link> */}
             <Link
               to="/signup"
               className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
@@ -119,18 +154,28 @@ const Navbar = () => {
             >
               Sign Up
             </Link>
-            <Link
-              to="/login"
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
-              onClick={() => setOpen(false)}
-            >
-              Login
-            </Link>
+            {!user ? (
+              <Link
+                to="/login"
+                className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
+                onClick={() => setOpen(false)}
+              >
+                Login
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-muted/20"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

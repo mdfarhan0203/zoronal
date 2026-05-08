@@ -60,11 +60,14 @@ class ApiService {
   }
 
   // Auth endpoints
-  async signup(fullName, email, password) {
+  async signup({ fullName, email, password }) {
+    console.log("sdas",fullName,email,password);
     const response = await this.request('/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ fullName, email, password }),
     });
+
+    console.log("response",response);
 
     if (response.token) {
       this.setToken(response.token);
