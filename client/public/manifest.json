@@ -52,11 +52,11 @@
       "label": "Home Screen"
     },
     {
-      "src": "/screenshots/mobile.png",
-      "sizes": "390x844",
+      "src": "/screenshots/login.png",
+      "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Mobile View"
+      "label": "Login Screen"
     }
   ]
 }
